@@ -5,8 +5,10 @@ import { dayPicker, unitPicker } from './settings.js';
 
 export function viewExercise(lift) {
   const ex = EXERCISES[lift];
-  const g = GUIDES[lift];
   if (!ex) { location.hash = '#/today'; return ''; }
+  // Fall back to a minimal guide built from the tagline, so an exercise
+  // without a full write-up never crashes this screen.
+  const g = GUIDES[lift] || { muscles: ex.name, cues: [], setup: [ex.tagline || ''], steps: [], mistakes: [], safety: [] };
   const p = progression(state.sessions, state.settings)[lift];
   const tab = ui.guideTab;
   const numbered = (arr, start = 1) => arr.map((x, i) => `<li><span class="step-n">${i + start}</span><p>${esc(x)}</p></li>`).join('');

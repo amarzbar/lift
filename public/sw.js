@@ -1,5 +1,5 @@
 // Bump VERSION on every deploy so clients pick up the new shell.
-const VERSION = 'lift-v8';
+const VERSION = 'lift-v9';
 const SHELL = [
   '/',
   '/index.html',

@@ -85,17 +85,69 @@ export const EXERCISES = {
     name: 'Triceps Pushdown', motion: 'triceps-pushdown', kind: 'accessory', equipment: 'cable', sets: 3, repsMin: 10, repsMax: 15, inc: 'small', rest: 60, easy: true,
     tagline: 'Cable triceps work. Gentle on the shoulders.',
   },
+
+  // ---- physio additions: warm-up foot work, glutes/hips, core, carries ----
+  // "Reps = seconds" moves (holds/carries) use the rep counter to log seconds.
+  calfraise: {
+    name: 'Calf Raise', motion: null, kind: 'accessory', equipment: 'bodyweight', sets: 2, repsMin: 12, repsMax: 20, inc: 'small', rest: 45, bodyweight: true, easy: true,
+    tagline: 'Warm-up. Rise onto the balls of your feet, lower slowly. Ankles and arches.',
+  },
+  shortfoot: {
+    name: 'Short-foot Hold', motion: null, kind: 'accessory', equipment: 'bodyweight', sets: 2, repsMin: 20, repsMax: 40, inc: 'small', rest: 30, bodyweight: true, easy: true,
+    tagline: 'Warm-up for flat feet. Reps = seconds: draw the ball of the foot toward the heel to lift the arch, hold.',
+  },
+  glutebridge: {
+    name: 'Glute Bridge', motion: null, kind: 'accessory', equipment: 'bodyweight', sets: 3, repsMin: 10, repsMax: 15, inc: 'small', rest: 60, bodyweight: true, easy: true,
+    tagline: 'On your back, drive through the heels to lift the hips. Big glute work, nothing on the spine.',
+  },
+  bandedwalk: {
+    name: 'Banded Side Walk', motion: null, kind: 'accessory', equipment: 'bodyweight', sets: 3, repsMin: 10, repsMax: 15, inc: 'small', rest: 45, bodyweight: true, perSide: true, easy: true,
+    tagline: 'Band above the knees, small steps sideways staying low. Wakes up the hips for knee tracking.',
+  },
+  deadbug: {
+    name: 'Dead Bug', motion: null, kind: 'accessory', equipment: 'bodyweight', sets: 3, repsMin: 8, repsMax: 12, inc: 'small', rest: 45, bodyweight: true, perSide: true, easy: true,
+    tagline: 'On your back, lower opposite arm and leg while the lower back stays pressed down. Anti-arch core.',
+  },
+  birddog: {
+    name: 'Bird Dog', motion: null, kind: 'accessory', equipment: 'bodyweight', sets: 3, repsMin: 8, repsMax: 12, inc: 'small', rest: 45, bodyweight: true, perSide: true, easy: true,
+    tagline: 'On all fours, reach opposite arm and leg out level, no twisting. Anti-rotation core.',
+  },
+  sideplank: {
+    name: 'Side Plank', motion: null, kind: 'accessory', equipment: 'bodyweight', sets: 2, repsMin: 20, repsMax: 40, inc: 'small', rest: 45, bodyweight: true, perSide: true, easy: true,
+    tagline: 'Reps = seconds. On one forearm, body in a straight line, hips lifted. Side-core and hips.',
+  },
+  pallof: {
+    name: 'Pallof Press', motion: null, kind: 'accessory', equipment: 'cable', sets: 3, repsMin: 8, repsMax: 12, inc: 'small', rest: 60, perSide: true, easy: true,
+    tagline: 'Cable or band at chest height from your side; press straight out and resist the twist. Anti-rotation core.',
+  },
+  suitcase: {
+    name: 'Suitcase Carry', motion: null, kind: 'accessory', equipment: 'dumbbell', sets: 2, repsMin: 20, repsMax: 40, inc: 'db', rest: 60, perSide: true, easy: true,
+    tagline: 'Reps = seconds. One dumbbell at your side, walk tall without leaning. Core and grip.',
+  },
+  facepull: {
+    name: 'Face Pull', motion: null, kind: 'accessory', equipment: 'cable', sets: 3, repsMin: 12, repsMax: 20, inc: 'small', rest: 60, easy: true,
+    tagline: 'Rope at face height, pull toward your eyes with elbows high. Upper back and healthy shoulders.',
+  },
+  stepup: {
+    name: 'Step-up (low box)', motion: null, kind: 'accessory', equipment: 'dumbbell', sets: 3, repsMin: 8, repsMax: 12, inc: 'db', rest: 60, load: 2, perSide: true, easy: true,
+    tagline: 'Low box, drive through the whole foot, knee tracking over the toes. Replaces lunges and running.',
+  },
 };
 
 // Each slot in the plan and the gentler variations that can fill it.
 export const ALTERNATIVES = {
-  squat: ['goblet', 'lunge'],
+  squat: ['goblet', 'lunge', 'stepup'],
   bench: ['dbincline'],
   row: ['cablerow', 'dbrow'],
   ohp: ['dbpress'],
   deadlift: ['rdl', 'hipthrust'],
-  pullup: ['pulldown'],
+  pullup: ['pulldown', 'facepull'],
   dip: ['pushdown'],
+  // physio accessory slots
+  glutebridge: ['hipthrust', 'bandedwalk'],
+  bandedwalk: ['glutebridge', 'hipthrust'],
+  deadbug: ['birddog', 'pallof', 'sideplank'],
+  suitcase: ['sideplank', 'facepull'],
 };
 export const SLOT_OF = Object.fromEntries(Object.entries(ALTERNATIVES).flatMap(([slot, alts]) => [[slot, slot], ...alts.map((a) => [a, slot])]));
 export const optionsFor = (slot) => [slot, ...(ALTERNATIVES[slot] || [])];
@@ -108,9 +160,11 @@ const START_RATIO = {
 
 export const EQUIPMENT_LABEL = { barbell: 'Barbell', dumbbell: 'Dumbbells', cable: 'Cable machine', bodyweight: 'Bodyweight' };
 
+// Each day: foot-work warm-up → main lifts (safer defaults via DEFAULT_SWAP)
+// → glute + core/carry accessories. Short on time? Skip the last accessory.
 export const WORKOUTS = {
-  A: { name: 'Workout A', lifts: ['squat', 'bench', 'row', 'dip'] },
-  B: { name: 'Workout B', lifts: ['squat', 'ohp', 'deadlift', 'pullup'] },
+  A: { name: 'Workout A', lifts: ['calfraise', 'shortfoot', 'squat', 'bench', 'row', 'dip', 'glutebridge', 'deadbug'] },
+  B: { name: 'Workout B', lifts: ['calfraise', 'shortfoot', 'squat', 'ohp', 'deadlift', 'pullup', 'bandedwalk', 'suitcase'] },
 };
 
 export const DEFAULT_SETTINGS = {
@@ -158,7 +212,12 @@ function lightest(lift, unit) {
   return unit === 'kg' ? 10 : 20;
 }
 
-export const chosenFor = (slot, settings) => settings.swaps?.[slot] || slot;
+// The gentler variant each main slot defaults to — lighter on the back, knees
+// and feet (physio guidance). The barbell original is still one tap away via
+// Swap, and a saved swap overrides this.
+export const DEFAULT_SWAP = { squat: 'goblet', row: 'cablerow', ohp: 'dbpress', deadlift: 'rdl' };
+
+export const chosenFor = (slot, settings) => settings.swaps?.[slot] || DEFAULT_SWAP[slot] || slot;
 
 export function liftsFor(workoutKey, settings) {
   return WORKOUTS[workoutKey].lifts.map((slot) => chosenFor(slot, settings));

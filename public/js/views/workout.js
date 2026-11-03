@@ -98,6 +98,8 @@ export function viewWorkout() {
     ${ui.armed === 'finish' ? '<p class="armed-note">Some sets aren\'t logged. Tap Finish again to end anyway.</p>' : ''}
     <div class="ex-tabs" role="tablist" aria-label="Exercises">${tabs}</div>
 
+    <p class="soft-note center-block">${icon('info', 'inline')} ~2 reps in reserve · knees out over the toes · discomfort 0–3/10 is OK — ease off if it's sharp or sore the next morning.</p>
+
     <section class="card ex-card ${complete ? 'complete' : ''}">
       <div class="motion" data-motion="${ex.motion || ''}" data-title="${esc(ex.name)}"></div>
       ${slot !== e.lift ? `<p class="swapped-from">${icon('repeat', 'inline')} In place of ${esc(EXERCISES[slot].name)}</p>` : ''}
